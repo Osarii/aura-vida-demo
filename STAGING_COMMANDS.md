@@ -1,4 +1,4 @@
-# Subir v2.1.2 a staging
+# Subir v2.1.3 a staging
 
 Desde la carpeta del proyecto:
 

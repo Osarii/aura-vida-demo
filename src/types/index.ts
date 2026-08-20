@@ -1,7 +1,41 @@
+export type IconName =
+  | 'heart'
+  | 'heart-filled'
+  | 'heart-pulse'
+  | 'sparkle'
+  | 'home'
+  | 'target'
+  | 'clock'
+  | 'search'
+  | 'chevron-left'
+  | 'chevron-right'
+  | 'arrow-left'
+  | 'arrow-right'
+  | 'check'
+  | 'check-circle'
+  | 'close'
+  | 'map-pin'
+  | 'phone'
+  | 'message'
+  | 'mail'
+  | 'info'
+  | 'alert'
+  | 'calendar'
+  | 'calendar-check'
+  | 'file-text'
+  | 'download'
+  | 'external-link'
+  | 'stethoscope'
+  | 'baby'
+  | 'scan'
+  | 'plus-circle'
+  | 'shield'
+  | 'users'
+
 export type Specialty = {
   id: string
   name: string
-  icon: string
+  icon: IconName
   shortDescription: string
   description: string
 }

@@ -1131,3 +1131,106 @@ section[id] { scroll-margin-top: 88px; }
   .hero-trust strong { font-size: .92rem; }
   .hero-trust span { font-size: .62rem; }
 }
+
+/* Unified professional icon system */
+.ui-icon {
+  display: block;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.soft-icon .ui-icon,
+.specialty-icon .ui-icon,
+.floating-icon .ui-icon,
+.care-principle-card .ui-icon {
+  stroke-width: 1.8;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 10px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--green-900);
+  background: var(--green-50);
+}
+
+.inline-icon-link,
+.hero-side-card button,
+.favorite-filter,
+.detail-favorite,
+.back-link,
+.availability-success,
+.appointment-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.specialty-card .inline-icon-link {
+  margin-top: 20px;
+}
+
+.favorite-filter {
+  justify-content: center;
+  min-height: 44px;
+}
+
+.search-box > span:not(.sr-only),
+.no-results > span {
+  display: grid;
+  place-items: center;
+}
+
+.no-results > span {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 12px;
+  border-radius: 14px;
+  background: var(--green-100);
+  color: var(--green-900);
+}
+
+.back-link {
+  width: fit-content;
+}
+
+.availability-success {
+  justify-content: flex-start;
+}
+
+.empty-times > span {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: var(--green-50);
+  color: var(--green-900);
+  display: grid;
+  place-items: center;
+}
+
+.map-pin .ui-icon {
+  transform: rotate(45deg);
+}
+
+.appointment-actions button {
+  justify-content: center;
+}
+
+.toast > span .ui-icon {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 680px) {
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .appointment-actions button {
+    min-height: 42px;
+  }
+}

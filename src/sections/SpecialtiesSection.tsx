@@ -2,6 +2,7 @@ import { useState, type SyntheticEvent } from 'react'
 import Modal from '../components/Modal'
 import SectionHeading from '../components/SectionHeading'
 import Reveal from '../components/Reveal'
+import Icon from '../components/Icon'
 import { specialties } from '../data/specialties'
 import { doctors } from '../data/doctors'
 import type { Specialty } from '../types'
@@ -29,10 +30,10 @@ export default function SpecialtiesSection({ onReserveSpecialty }: Props) {
         <Reveal className="specialties-grid">
           {specialties.map((item) => (
             <button type="button" className="specialty-card" key={item.id} onClick={() => setSelected(item)}>
-              <div className="specialty-icon">{item.icon}</div>
+              <div className="specialty-icon" aria-hidden="true"><Icon name={item.icon} size={25} /></div>
               <h3>{item.name}</h3>
               <p>{item.shortDescription}</p>
-              <span>Conocer más →</span>
+              <span className="inline-icon-link">Conocer más <Icon name="arrow-right" size={16} /></span>
             </button>
           ))}
         </Reveal>
@@ -89,7 +90,7 @@ export default function SpecialtiesSection({ onReserveSpecialty }: Props) {
         <div className="specialty-directory">
           {specialties.map((item) => (
             <article key={item.id}>
-              <div className="specialty-icon">{item.icon}</div>
+              <div className="specialty-icon" aria-hidden="true"><Icon name={item.icon} size={25} /></div>
               <div>
                 <h4>{item.name}</h4>
                 <p>{item.description}</p>

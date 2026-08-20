@@ -1,4 +1,4 @@
-# Auditoría técnica — Aura & Vida v2.1.2
+# Auditoría técnica — Aura & Vida v2.1.3
 
 ## Correcciones de estabilidad
 
@@ -52,3 +52,11 @@
 ## Configuración externa pendiente
 
 No se inventaron datos oficiales de teléfono, WhatsApp ni correo. Estos canales permanecen ocultos hasta configurarlos en `src/data/contact.ts`.
+
+## Sistema de iconografía
+
+- Eliminados los símbolos y caracteres usados como iconos en la interfaz.
+- Añadido un componente SVG reutilizable en `src/components/Icon.tsx`.
+- La iconografía usa trazos consistentes, esquinas redondeadas y color heredado para mantener coherencia visual.
+- Se asignaron iconos específicos por contexto: especialidades, búsqueda, favoritos, navegación, reserva, contacto, estados y calendario.
+- No se añadió ninguna dependencia externa para iconos.

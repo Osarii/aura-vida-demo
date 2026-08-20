@@ -1,4 +1,5 @@
 import Modal from './Modal'
+import Icon from './Icon'
 import type { Appointment } from '../types'
 import { doctors } from '../data/doctors'
 import { specialties } from '../data/specialties'
@@ -69,16 +70,16 @@ export default function MyAppointmentsModal({
 
         <div className="appointment-actions">
           <button type="button" onClick={() => void downloadAppointmentPDF(appointment, doctor, specialty)}>
-            PDF
+            <Icon name="file-text" size={16} /> PDF
           </button>
           <button type="button" onClick={() => downloadICS(appointment, doctor, specialty)}>
-            .ICS
+            <Icon name="calendar" size={16} /> .ICS
           </button>
           <button type="button" onClick={() => openGoogleCalendar(appointment, doctor, specialty)}>
-            Google Calendar
+            <Icon name="external-link" size={16} /> Google Calendar
           </button>
           <button type="button" onClick={() => shareAppointmentOnWhatsApp(appointment, doctor, specialty)}>
-            WhatsApp
+            <Icon name="message" size={16} /> WhatsApp
           </button>
           {appointment.status === 'upcoming' && (
             <button type="button" className="danger-link" onClick={() => onCancel(appointment.id)}>
@@ -93,13 +94,13 @@ export default function MyAppointmentsModal({
   return (
     <Modal isOpen={isOpen} title="Mis citas" onClose={onClose} wide>
       <div className="storage-notice">
-        <span aria-hidden="true">i</span>
+        <span aria-hidden="true"><Icon name="info" size={16} /></span>
         <p>Las citas guardadas aquí permanecen únicamente en este dispositivo.</p>
       </div>
 
       {appointments.length === 0 ? (
         <div className="empty-state">
-          <div aria-hidden="true">♡</div>
+          <div aria-hidden="true"><Icon name="calendar" size={34} /></div>
           <h4>Todavía no hay citas</h4>
           <p>Complete el flujo de reserva para crear la primera.</p>
         </div>

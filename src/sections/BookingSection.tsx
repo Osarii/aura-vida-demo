@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react'
 import CustomCalendar from '../components/CustomCalendar'
 import Reveal from '../components/Reveal'
+import Icon from '../components/Icon'
 import { specialties } from '../data/specialties'
 import { doctors } from '../data/doctors'
 import { getAvailability } from '../data/appointments'
@@ -236,7 +237,7 @@ export default function BookingSection({
                   className={`${step === n ? 'active' : ''} ${step > n ? 'done' : ''}`}
                   onClick={() => enabled && setStep(n)}
                 >
-                  <span>{step > n ? '✓' : number}</span>
+                  <span>{step > n ? <Icon name="check" size={16} /> : number}</span>
                   <small>{label}</small>
                 </button>
               )
@@ -295,7 +296,7 @@ export default function BookingSection({
                     </button>
                   ))}
                 </div>
-                <button type="button" className="back-link" onClick={() => setStep(1)}>← Volver</button>
+                <button type="button" className="back-link" onClick={() => setStep(1)}><Icon name="arrow-left" size={16} /> Volver</button>
               </div>
             )}
 
@@ -314,7 +315,7 @@ export default function BookingSection({
                     <h4>Horarios disponibles</h4>
                     {!draft.date ? (
                       <div className="empty-times">
-                        <span aria-hidden="true">◷</span>
+                        <span aria-hidden="true"><Icon name="clock" size={30} /></span>
                         <p>Seleccione una fecha para consultar horarios.</p>
                       </div>
                     ) : loadingTimes ? (
@@ -325,14 +326,14 @@ export default function BookingSection({
                       </div>
                     ) : times.length === 0 ? (
                       <div className="empty-times">
-                        <span aria-hidden="true">◷</span>
+                        <span aria-hidden="true"><Icon name="clock" size={30} /></span>
                         <strong>Sin horarios disponibles</strong>
                         <p>Seleccione otra fecha para continuar.</p>
                       </div>
                     ) : (
                       <>
                         <div className="availability-success">
-                          ✓ {times.length} {times.length === 1 ? 'horario disponible' : 'horarios disponibles'}
+                          <Icon name="check-circle" size={16} /> {times.length} {times.length === 1 ? 'horario disponible' : 'horarios disponibles'}
                         </div>
                         <div className="times-grid">
                           {times.map((time) => (
@@ -355,7 +356,7 @@ export default function BookingSection({
                   </div>
                 </div>
 
-                <button type="button" className="back-link" onClick={() => setStep(2)}>← Volver</button>
+                <button type="button" className="back-link" onClick={() => setStep(2)}><Icon name="arrow-left" size={16} /> Volver</button>
               </div>
             )}
 
@@ -385,7 +386,7 @@ export default function BookingSection({
                 </div>
 
                 <div className="local-confirm-notice">
-                  <span aria-hidden="true">i</span>
+                  <span aria-hidden="true"><Icon name="info" size={16} /></span>
                   <p>Al confirmar, la cita se guardará únicamente en este dispositivo.</p>
                 </div>
 
@@ -402,7 +403,7 @@ export default function BookingSection({
 
             {step === 4 && generated && doctor && specialty && (
               <div className="success-screen">
-                <div className="success-ring" aria-hidden="true">✓</div>
+                <div className="success-ring" aria-hidden="true"><Icon name="check-circle" size={38} /></div>
                 <span className="success-label">Reserva completada</span>
                 <h3>¡Cita reservada correctamente!</h3>
                 <p>

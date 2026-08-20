@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type MouseEvent as ReactMouseEvent, type ReactNode } from 'react'
+import Icon from './Icon'
 
 type Props = {
   isOpen: boolean
@@ -97,7 +98,7 @@ export default function Modal({ isOpen, title, onClose, children, wide = false }
             onClick={onClose}
             aria-label="Cerrar"
           >
-            ×
+            <Icon name="close" size={20} />
           </button>
         </div>
         <div className="modal-body">{children}</div>

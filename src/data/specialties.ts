@@ -4,7 +4,7 @@ export const specialties: Specialty[] = [
   {
     id: 'ginecologia',
     name: 'Ginecología',
-    icon: '✦',
+    icon: 'stethoscope',
     shortDescription: 'Cuidado integral de la salud femenina.',
     description:
       'Atención ginecológica preventiva y especializada para cada etapa de la vida, con un enfoque cálido, cercano y personalizado.',
@@ -12,7 +12,7 @@ export const specialties: Specialty[] = [
   {
     id: 'obstetricia',
     name: 'Obstetricia',
-    icon: '♡',
+    icon: 'heart',
     shortDescription: 'Acompañamiento durante todo el embarazo.',
     description:
       'Seguimiento prenatal, control del embarazo y acompañamiento profesional para vivir una maternidad segura y tranquila.',
@@ -20,7 +20,7 @@ export const specialties: Specialty[] = [
   {
     id: 'pediatria',
     name: 'Pediatría',
-    icon: '☀',
+    icon: 'baby',
     shortDescription: 'Bienestar y crecimiento de los más pequeños.',
     description:
       'Atención pediátrica orientada al desarrollo, prevención y tratamiento, siempre con una experiencia amable para niños y familias.',
@@ -28,7 +28,7 @@ export const specialties: Specialty[] = [
   {
     id: 'materno-fetal',
     name: 'Medicina Materno-Fetal',
-    icon: '◌',
+    icon: 'scan',
     shortDescription: 'Seguimiento especializado de alto nivel.',
     description:
       'Valoración materno-fetal con tecnología moderna para acompañar embarazos que requieren observación y atención especializada.',
@@ -36,7 +36,7 @@ export const specialties: Specialty[] = [
   {
     id: 'otros',
     name: 'Otros Servicios',
-    icon: '＋',
+    icon: 'plus-circle',
     shortDescription: 'Servicios complementarios de bienestar.',
     description:
       'Consulta general, orientación preventiva, chequeos y servicios complementarios para una atención integral.',

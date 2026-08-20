@@ -3,6 +3,7 @@ import Modal from '../components/Modal'
 import SectionHeading from '../components/SectionHeading'
 import Reveal from '../components/Reveal'
 import SkeletonCard from '../components/SkeletonCard'
+import Icon from '../components/Icon'
 import { doctors } from '../data/doctors'
 import { specialties } from '../data/specialties'
 import type { Doctor } from '../types'
@@ -92,7 +93,7 @@ export default function DoctorsSection({
               onClick={() => setFeaturedIndex((current) => (current - 1 + doctors.length) % doctors.length)}
               aria-label="Profesional anterior"
             >
-              ←
+              <Icon name="chevron-left" size={18} />
             </button>
             <span aria-live="polite">{featuredIndex + 1} / {doctors.length}</span>
             <button
@@ -101,7 +102,7 @@ export default function DoctorsSection({
               onClick={() => setFeaturedIndex((current) => (current + 1) % doctors.length)}
               aria-label="Profesional siguiente"
             >
-              →
+              <Icon name="chevron-right" size={18} />
             </button>
           </div>
         </Reveal>
@@ -109,7 +110,7 @@ export default function DoctorsSection({
         <Reveal className="doctor-tools">
           <label className="search-box">
             <span className="sr-only">Buscar profesional o especialidad</span>
-            <span aria-hidden="true">⌕</span>
+            <span aria-hidden="true"><Icon name="search" size={18} /></span>
             <input
               type="search"
               aria-label="Buscar profesional o especialidad"
@@ -152,7 +153,7 @@ export default function DoctorsSection({
             onClick={() => setOnlyFavorites((value) => !value)}
             aria-pressed={onlyFavorites}
           >
-            ♥ Favoritos
+            <Icon name={onlyFavorites ? 'heart-filled' : 'heart'} size={17} /> Favoritos
           </button>
         </Reveal>
 
@@ -184,7 +185,7 @@ export default function DoctorsSection({
                       aria-label={favorite ? `Quitar a ${doctor.name} de favoritos` : `Agregar a ${doctor.name} a favoritos`}
                       aria-pressed={favorite}
                     >
-                      {favorite ? '♥' : '♡'}
+                      <Icon name={favorite ? 'heart-filled' : 'heart'} size={19} />
                     </button>
                   </div>
                   <div className="doctor-card-body">
@@ -213,7 +214,7 @@ export default function DoctorsSection({
             })
           ) : (
             <div className="no-results">
-              <span aria-hidden="true">⌕</span>
+              <span aria-hidden="true"><Icon name="search" size={18} /></span>
               <h3>No encontramos profesionales</h3>
               <p>Pruebe otra búsqueda o desactive el filtro de favoritos.</p>
             </div>
@@ -242,7 +243,8 @@ export default function DoctorsSection({
                 onClick={() => onToggleFavorite(selected.id)}
                 aria-pressed={favorites.includes(selected.id)}
               >
-                {favorites.includes(selected.id) ? '♥ Favorito' : '♡ Guardar'}
+                <Icon name={favorites.includes(selected.id) ? 'heart-filled' : 'heart'} size={17} />
+                {favorites.includes(selected.id) ? 'Favorito' : 'Guardar'}
               </button>
             </div>
             <div>

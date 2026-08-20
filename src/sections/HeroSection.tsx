@@ -1,5 +1,6 @@
 import type { SyntheticEvent } from 'react'
 import Reveal from '../components/Reveal'
+import Icon from '../components/Icon'
 import heroFallback from '../assets/aura-vida-logo.webp'
 
 export default function HeroSection() {
@@ -91,7 +92,7 @@ export default function HeroSection() {
               />
 
               <div className="floating-card floating-card-top">
-                <span className="floating-icon" aria-hidden="true">♡</span>
+                <span className="floating-icon" aria-hidden="true"><Icon name="heart" size={18} /></span>
                 <div>
                   <strong>Atención cercana</strong>
                   <small>Para cada etapa</small>
@@ -99,7 +100,7 @@ export default function HeroSection() {
               </div>
 
               <div className="floating-card floating-card-bottom">
-                <span className="floating-icon" aria-hidden="true">✓</span>
+                <span className="floating-icon" aria-hidden="true"><Icon name="check-circle" size={18} /></span>
                 <div>
                   <strong>Reserva sencilla</strong>
                   <small>En pocos pasos</small>
@@ -116,7 +117,7 @@ export default function HeroSection() {
               <small>Reserva en línea</small>
               <strong>Elija especialidad y profesional</strong>
               <p>Consulte la disponibilidad antes de confirmar.</p>
-              <button type="button" onClick={goToBooking}>Continuar reserva →</button>
+              <button type="button" onClick={goToBooking}>Continuar reserva <Icon name="arrow-right" size={16} /></button>
             </div>
           </Reveal>
         </div>

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { getDayOfWeekInCostaRica, toCostaRicaDateKey } from '../utils/date'
+import Icon from './Icon'
 
 type Props = {
   value: string
@@ -55,7 +56,7 @@ export default function CustomCalendar({ value, onChange }: Props) {
             setCursor(new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1, 12))
           }
         >
-          ←
+          <Icon name="chevron-left" size={18} />
         </button>
         <strong>{monthFormatter.format(cursor)}</strong>
         <button
@@ -67,7 +68,7 @@ export default function CustomCalendar({ value, onChange }: Props) {
             setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1, 12))
           }
         >
-          →
+          <Icon name="chevron-right" size={18} />
         </button>
       </div>
 

@@ -1,11 +1,13 @@
 import SectionHeading from '../components/SectionHeading'
 import Reveal from '../components/Reveal'
+import Icon from '../components/Icon'
+import type { IconName } from '../types'
 
-const benefits = [
-  ['♡', 'Atención personalizada', 'Escuchamos sus necesidades y acompañamos cada proceso de forma cercana.'],
-  ['✦', 'Profesionales calificados', 'Un enfoque profesional orientado a una atención segura, clara y confiable.'],
-  ['⌂', 'Ambiente seguro', 'Espacios pensados para transmitir calma, privacidad y bienestar.'],
-  ['◎', 'Procesos claros', 'Información organizada y un flujo sencillo para acompañar cada visita.'],
+const benefits: Array<[IconName, string, string]> = [
+  ['heart', 'Atención personalizada', 'Escuchamos sus necesidades y acompañamos cada proceso de forma cercana.'],
+  ['stethoscope', 'Profesionales calificados', 'Un enfoque profesional orientado a una atención segura, clara y confiable.'],
+  ['shield', 'Ambiente seguro', 'Espacios pensados para transmitir calma, privacidad y bienestar.'],
+  ['target', 'Procesos claros', 'Información organizada y un flujo sencillo para acompañar cada visita.'],
 ]
 
 export default function BenefitsSection() {
@@ -23,7 +25,7 @@ export default function BenefitsSection() {
         <Reveal className="benefits-grid">
           {benefits.map(([icon, title, text]) => (
             <article className="benefit-card" key={title}>
-              <div className="soft-icon">{icon}</div>
+              <div className="soft-icon" aria-hidden="true"><Icon name={icon} size={24} /></div>
               <h3>{title}</h3>
               <p>{text}</p>
             </article>
