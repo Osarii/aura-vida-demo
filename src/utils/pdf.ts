@@ -1,12 +1,12 @@
-import { jsPDF } from 'jspdf'
 import type { Appointment, Doctor, Specialty } from '../types'
 import { formatDate } from './date'
 
-export function downloadAppointmentPDF(
+export async function downloadAppointmentPDF(
   appointment: Appointment,
   doctor: Doctor,
   specialty: Specialty,
 ) {
+  const { jsPDF } = await import('jspdf')
   const doc = new jsPDF()
 
   doc.setFont('helvetica', 'bold')
@@ -24,13 +24,20 @@ export function downloadAppointmentPDF(
   doc.setFontSize(16)
   doc.text('Confirmación de cita', 20, 52)
 
+  const status =
+    appointment.status === 'cancelled'
+      ? 'Cancelada'
+      : appointment.status === 'completed'
+        ? 'Completada'
+        : 'Confirmada'
+
   const rows = [
     ['Reserva', appointment.code],
     ['Especialidad', specialty.name],
     ['Profesional', doctor.name],
     ['Fecha', formatDate(appointment.date)],
     ['Hora', appointment.time],
-    ['Estado', appointment.status === 'cancelled' ? 'Cancelada' : 'Confirmada'],
+    ['Estado', status],
   ]
 
   let y = 68

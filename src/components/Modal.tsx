@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react'
+import { useEffect, useId, useRef, type MouseEvent as ReactMouseEvent, type ReactNode } from 'react'
 
 type Props = {
   isOpen: boolean
@@ -8,9 +8,19 @@ type Props = {
   wide?: boolean
 }
 
+const focusableSelector = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',')
+
 export default function Modal({ isOpen, title, onClose, children, wide = false }: Props) {
   const titleId = useId()
   const closeButtonRef = useRef<HTMLButtonElement | null>(null)
+  const dialogRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (!isOpen) return
@@ -22,15 +32,46 @@ export default function Modal({ isOpen, title, onClose, children, wide = false }
     window.requestAnimationFrame(() => closeButtonRef.current?.focus())
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const dialog = dialogRef.current
+      if (!dialog) return
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(focusableSelector),
+      ).filter((element) => !element.hasAttribute('hidden'))
+
+      if (focusable.length === 0) {
+        event.preventDefault()
+        dialog.focus()
+        return
+      }
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      const active = document.activeElement
+
+      if (event.shiftKey && (active === first || !dialog.contains(active))) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = previousOverflow
-      previousActive?.focus()
+      window.requestAnimationFrame(() => previousActive?.focus())
     }
   }, [isOpen, onClose])
 
@@ -39,11 +80,13 @@ export default function Modal({ isOpen, title, onClose, children, wide = false }
   return (
     <div className="modal-backdrop" role="presentation" onMouseDown={onClose}>
       <section
+        ref={dialogRef}
         className={`modal-card ${wide ? 'modal-wide' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        onMouseDown={(event) => event.stopPropagation()}
+        tabIndex={-1}
+        onMouseDown={(event: ReactMouseEvent<HTMLElement>) => event.stopPropagation()}
       >
         <div className="modal-header">
           <h3 id={titleId}>{title}</h3>

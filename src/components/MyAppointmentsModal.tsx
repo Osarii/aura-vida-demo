@@ -2,7 +2,7 @@ import Modal from './Modal'
 import type { Appointment } from '../types'
 import { doctors } from '../data/doctors'
 import { specialties } from '../data/specialties'
-import { formatDate } from '../utils/date'
+import { formatDate, appointmentDateTime } from '../utils/date'
 import { downloadAppointmentPDF } from '../utils/pdf'
 import {
   downloadICS,
@@ -17,14 +17,28 @@ type Props = {
   onCancel: (id: string) => void
 }
 
+function sortByDate(items: Appointment[], direction: 'asc' | 'desc') {
+  return [...items].sort((a, b) => {
+    const aTime = appointmentDateTime(a.date, a.time)?.getTime() ?? 0
+    const bTime = appointmentDateTime(b.date, b.time)?.getTime() ?? 0
+    return direction === 'asc' ? aTime - bTime : bTime - aTime
+  })
+}
+
 export default function MyAppointmentsModal({
   isOpen,
   onClose,
   appointments,
   onCancel,
 }: Props) {
-  const upcoming = appointments.filter((item) => item.status === 'upcoming')
-  const history = appointments.filter((item) => item.status !== 'upcoming')
+  const upcoming = sortByDate(
+    appointments.filter((item) => item.status === 'upcoming'),
+    'asc',
+  )
+  const history = sortByDate(
+    appointments.filter((item) => item.status !== 'upcoming'),
+    'desc',
+  )
 
   const renderCard = (appointment: Appointment) => {
     const doctor = doctors.find((item) => item.id === appointment.doctorId)
@@ -54,7 +68,7 @@ export default function MyAppointmentsModal({
         </div>
 
         <div className="appointment-actions">
-          <button type="button" onClick={() => downloadAppointmentPDF(appointment, doctor, specialty)}>
+          <button type="button" onClick={() => void downloadAppointmentPDF(appointment, doctor, specialty)}>
             PDF
           </button>
           <button type="button" onClick={() => downloadICS(appointment, doctor, specialty)}>
@@ -79,15 +93,13 @@ export default function MyAppointmentsModal({
   return (
     <Modal isOpen={isOpen} title="Mis citas" onClose={onClose} wide>
       <div className="storage-notice">
-        <span>i</span>
-        <p>
-          Las citas guardadas aquí permanecen únicamente en este dispositivo.
-        </p>
+        <span aria-hidden="true">i</span>
+        <p>Las citas guardadas aquí permanecen únicamente en este dispositivo.</p>
       </div>
 
       {appointments.length === 0 ? (
         <div className="empty-state">
-          <div>♡</div>
+          <div aria-hidden="true">♡</div>
           <h4>Todavía no hay citas</h4>
           <p>Complete el flujo de reserva para crear la primera.</p>
         </div>

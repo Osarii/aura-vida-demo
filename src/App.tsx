@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ToastStack from './components/ToastStack'
@@ -21,7 +21,15 @@ import {
   saveDraft,
   saveFavorites,
 } from './utils/storage'
+import {
+  hasAppointmentStatusChanges,
+  reconcileAppointmentStatuses,
+} from './utils/appointments'
 import { useLocalStorageState } from './hooks/useLocalStorageState'
+
+function createToastId() {
+  return globalThis.crypto?.randomUUID?.() ?? `toast-${Date.now()}-${Math.random()}`
+}
 
 export default function App() {
   const [appointments, setAppointments] = useLocalStorageState<Appointment[]>(
@@ -37,17 +45,41 @@ export default function App() {
   const [toasts, setToasts] = useState<ToastMessage[]>([])
 
   const notify = useCallback((text: string, tone: ToastMessage['tone'] = 'info') => {
-    const id = crypto.randomUUID()
+    const id = createToastId()
     setToasts((current) => [...current, { id, text, tone }])
     window.setTimeout(() => {
       setToasts((current) => current.filter((item) => item.id !== id))
     }, 3200)
   }, [])
 
+  useEffect(() => {
+    const reconcile = () => {
+      setAppointments((current) => {
+        const next = reconcileAppointmentStatuses(current)
+        return hasAppointmentStatusChanges(current, next) ? next : current
+      })
+    }
+
+    reconcile()
+    const timer = window.setInterval(reconcile, 60_000)
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') reconcile()
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
+    return () => {
+      window.clearInterval(timer)
+      document.removeEventListener('visibilitychange', handleVisibility)
+    }
+  }, [setAppointments])
+
   const toggleFavorite = (doctorId: string) => {
     setFavorites((current) => {
       const exists = current.includes(doctorId)
-      notify(exists ? 'Profesional eliminado de favoritos' : 'Profesional guardado en favoritos', 'success')
+      notify(
+        exists ? 'Profesional eliminado de favoritos' : 'Profesional guardado en favoritos',
+        'success',
+      )
       return exists ? current.filter((id) => id !== doctorId) : [...current, doctorId]
     })
   }
@@ -65,11 +97,10 @@ export default function App() {
     notify('Cita cancelada', 'info')
   }
 
-
   const reserveSpecialty = (specialtyId: string) => {
     setDraft({ specialtyId, doctorId: '', date: '', time: '' })
     document.getElementById('reservar')?.scrollIntoView({ behavior: 'smooth' })
-    notify('Especialidad precargada en la reserva', 'success')
+    notify('Especialidad seleccionada para la reserva', 'success')
   }
 
   const reserveDoctor = (doctor: Doctor) => {
@@ -83,10 +114,12 @@ export default function App() {
     notify(`${doctor.name} fue preseleccionado`, 'success')
   }
 
+  const upcomingCount = appointments.filter((item) => item.status === 'upcoming').length
+
   return (
     <>
       <Header
-        appointmentCount={appointments.filter((item) => item.status === 'upcoming').length}
+        appointmentCount={upcomingCount}
         onOpenAppointments={() => setAppointmentsOpen(true)}
       />
       <main>
@@ -102,6 +135,7 @@ export default function App() {
         <BookingSection
           draft={draft}
           setDraft={setDraft}
+          appointments={appointments}
           onCreateAppointment={createAppointment}
           onNotify={notify}
         />

@@ -1,7 +1,9 @@
 import type { Appointment, Doctor, Specialty } from '../types'
 import { formatDate } from './date'
 
-function stamp(date: Date) {
+const COSTA_RICA_OFFSET = '-06:00'
+
+function stampUTC(date: Date) {
   return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
 }
 
@@ -14,7 +16,7 @@ function escapeICS(value: string) {
 }
 
 function getAppointmentDates(appointment: Appointment) {
-  const start = new Date(`${appointment.date}T${appointment.time}:00`)
+  const start = new Date(`${appointment.date}T${appointment.time}:00${COSTA_RICA_OFFSET}`)
   const end = new Date(start.getTime() + 45 * 60 * 1000)
   return { start, end }
 }
@@ -31,11 +33,12 @@ export function downloadICS(
     'VERSION:2.0',
     'PRODID:-//Aura Vida//ES',
     'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
     'BEGIN:VEVENT',
     `UID:${escapeICS(appointment.code)}@aurayvida.local`,
-    `DTSTAMP:${stamp(new Date())}`,
-    `DTSTART:${stamp(start)}`,
-    `DTEND:${stamp(end)}`,
+    `DTSTAMP:${stampUTC(new Date())}`,
+    `DTSTART:${stampUTC(start)}`,
+    `DTEND:${stampUTC(end)}`,
     `SUMMARY:${escapeICS(`Cita - ${specialty.name}`)}`,
     `DESCRIPTION:${escapeICS(`${doctor.name} - Reserva ${appointment.code}`)}`,
     'LOCATION:Aura & Vida',
@@ -63,9 +66,10 @@ export function openGoogleCalendar(
   const params = new URLSearchParams({
     action: 'TEMPLATE',
     text: `Cita - ${specialty.name}`,
-    dates: `${stamp(start)}/${stamp(end)}`,
+    dates: `${stampUTC(start)}/${stampUTC(end)}`,
     details: `${doctor.name} · Reserva ${appointment.code}`,
     location: 'Aura & Vida',
+    ctz: 'America/Costa_Rica',
   })
 
   window.open(

@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import symbolLogo from '../assets/aura-vida-symbol.png'
-import wordmarkLogo from '../assets/aura-vida-wordmark.png'
+import { useEffect, useState } from 'react'
+import symbolLogo from '../assets/aura-vida-symbol.webp'
+import wordmarkLogo from '../assets/aura-vida-wordmark.webp'
 
 type Props = {
   appointmentCount: number
@@ -18,6 +18,26 @@ const links = [
 
 export default function Header({ appointmentCount, onOpenAppointments }: Props) {
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (!open) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    const desktopMedia = window.matchMedia('(min-width: 1181px)')
+    const handleDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false)
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    desktopMedia.addEventListener?.('change', handleDesktop)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      desktopMedia.removeEventListener?.('change', handleDesktop)
+    }
+  }, [open])
 
   const goTo = (id: string) => {
     setOpen(false)

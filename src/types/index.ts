@@ -13,8 +13,6 @@ export type Doctor = {
   specialty: string
   photo: string
   experienceYears: number
-  rating: number
-  reviews: number
   bio: string
   education: string[]
   languages: string[]

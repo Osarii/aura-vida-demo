@@ -3,15 +3,6 @@ import Reveal from '../components/Reveal'
 import { contactInfo } from '../data/contact'
 
 export default function ContactSection() {
-  const openPhone = () => { window.location.href = 'tel:+50622000000' }
-  const openMail = () => { window.location.href = 'mailto:hola@aurayvida.com' }
-  const openWhatsapp = () =>
-    window.open(
-      'https://wa.me/50670000000?text=Hola%20Aura%20%26%20Vida',
-      '_blank',
-      'noopener,noreferrer',
-    )
-
   return (
     <section className="section section-soft" id="contacto">
       <Reveal className="container contact-layout">
@@ -19,27 +10,46 @@ export default function ContactSection() {
           <SectionHeading
             eyebrow="Ubicación y contacto"
             title="Estamos para atenderle"
-            description="Puede comunicarse con nosotros por teléfono, WhatsApp o correo electrónico."
+            description="Consulte nuestra referencia de ubicación y el horario general de atención."
             centered={false}
           />
 
           <div className="contact-list">
-            <button type="button" onClick={openPhone}>
-              <span>☎</span>
-              <div><small>Teléfono</small><strong>{contactInfo.phone}</strong></div>
-            </button>
-            <button type="button" onClick={openWhatsapp}>
-              <span>✆</span>
-              <div><small>WhatsApp</small><strong>{contactInfo.whatsapp}</strong></div>
-            </button>
-            <button type="button" onClick={openMail}>
-              <span>✉</span>
-              <div><small>Correo</small><strong>{contactInfo.email}</strong></div>
-            </button>
             <div className="contact-item">
-              <span>◷</span>
+              <span aria-hidden="true">⌖</span>
+              <div><small>Ubicación</small><strong>{contactInfo.address}</strong></div>
+            </div>
+
+            <div className="contact-item">
+              <span aria-hidden="true">◷</span>
               <div><small>Horario</small><strong>{contactInfo.schedule}</strong></div>
             </div>
+
+            {contactInfo.phone && contactInfo.phoneHref && (
+              <a className="contact-item" href={contactInfo.phoneHref}>
+                <span aria-hidden="true">☎</span>
+                <div><small>Teléfono</small><strong>{contactInfo.phone}</strong></div>
+              </a>
+            )}
+
+            {contactInfo.whatsapp && contactInfo.whatsappHref && (
+              <a
+                className="contact-item"
+                href={contactInfo.whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span aria-hidden="true">✆</span>
+                <div><small>WhatsApp</small><strong>{contactInfo.whatsapp}</strong></div>
+              </a>
+            )}
+
+            {contactInfo.email && contactInfo.emailHref && (
+              <a className="contact-item" href={contactInfo.emailHref}>
+                <span aria-hidden="true">✉</span>
+                <div><small>Correo</small><strong>{contactInfo.email}</strong></div>
+              </a>
+            )}
           </div>
         </div>
 
@@ -47,7 +57,7 @@ export default function ContactSection() {
           <div className="map-grid" />
           <div className="map-road road-one" />
           <div className="map-road road-two" />
-          <div className="map-pin">●</div>
+          <div className="map-pin" aria-hidden="true">●</div>
           <div className="map-label">
             <strong>Aura & Vida</strong>
             <span>{contactInfo.address}</span>

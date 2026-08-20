@@ -1,4 +1,4 @@
-# Subir a staging
+# Subir v2.1.2 a staging
 
 Desde la carpeta del proyecto:
 
@@ -9,10 +9,10 @@ npm run build
 
 git checkout staging
 git add .
-git commit -m "feat: polish Aura Vida frontend"
+git commit -m "fix: stabilize Aura Vida frontend"
 git push origin staging
 ```
 
-Después del `push`, Vercel generará automáticamente un nuevo Preview Deployment de `staging`.
+Después del `push`, Vercel generará automáticamente el nuevo Preview Deployment de `staging`.
 
-> Si estás reemplazando una carpeta anterior del proyecto, elimina antes el `package-lock.json` viejo para que `npm install` genere uno nuevo con las dependencias actualizadas.
+Si el proyecto anterior ya tiene `node_modules`, no hace falta subirlo: permanece excluido por `.gitignore`.

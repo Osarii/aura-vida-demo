@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, type SyntheticEvent } from 'react'
 import Modal from '../components/Modal'
 import SectionHeading from '../components/SectionHeading'
 import Reveal from '../components/Reveal'
 import { specialties } from '../data/specialties'
 import { doctors } from '../data/doctors'
 import type { Specialty } from '../types'
+import { setImageFallback } from '../utils/images'
 
 type Props = {
   onReserveSpecialty: (specialtyId: string) => void
@@ -57,7 +58,7 @@ export default function SpecialtiesSection({ onReserveSpecialty }: Props) {
                 .filter((doctor) => doctor.specialtyId === selected.id)
                 .map((doctor) => (
                   <div className="mini-doctor" key={doctor.id}>
-                    <img src={doctor.photo} alt={doctor.name} />
+                    <img src={doctor.photo} alt={doctor.name} loading="lazy" decoding="async" onError={(event: SyntheticEvent<HTMLImageElement>) => setImageFallback(event.currentTarget, doctor.name)} />
                     <div>
                       <strong>{doctor.name}</strong>
                       <span>{doctor.specialty}</span>

@@ -1,4 +1,4 @@
-import fullLogo from '../assets/aura-vida-logo.png'
+import fullLogo from '../assets/aura-vida-logo.webp'
 
 export default function Footer() {
   const goTo = (id: string) =>
@@ -13,6 +13,8 @@ export default function Footer() {
               className="footer-official-logo"
               src={fullLogo}
               alt="Aura & Vida — Alta especialidad para la mujer y el niño"
+              loading="lazy"
+              decoding="async"
             />
           </button>
           <p>Alta especialidad para la mujer y el niño.</p>

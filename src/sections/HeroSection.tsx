@@ -1,16 +1,13 @@
+import type { SyntheticEvent } from 'react'
 import Reveal from '../components/Reveal'
+import heroFallback from '../assets/aura-vida-logo.webp'
 
 export default function HeroSection() {
   const goToBooking = () =>
     document.getElementById('reservar')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
-  const openWhatsapp = () => {
-    window.open(
-      'https://wa.me/50670000000?text=Hola%20Aura%20%26%20Vida.%20Quisiera%20informaci%C3%B3n',
-      '_blank',
-      'noopener,noreferrer',
-    )
-  }
+  const goToContact = () =>
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   return (
     <section className="hero" id="inicio">
@@ -42,8 +39,8 @@ export default function HeroSection() {
                 <button type="button" className="button button-primary" onClick={goToBooking}>
                   Reservar cita
                 </button>
-                <button type="button" className="button button-secondary" onClick={openWhatsapp}>
-                  Escríbenos por WhatsApp
+                <button type="button" className="button button-secondary" onClick={goToContact}>
+                  Ubicación y horario
                 </button>
               </div>
 
@@ -86,10 +83,15 @@ export default function HeroSection() {
                 src="https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&w=1200&q=85"
                 alt="Madre abrazando a su bebé"
                 fetchPriority="high"
+                onError={(event: SyntheticEvent<HTMLImageElement>) => {
+                  event.currentTarget.onerror = null
+                  event.currentTarget.src = heroFallback
+                  event.currentTarget.classList.add('hero-fallback-image')
+                }}
               />
 
               <div className="floating-card floating-card-top">
-                <span className="floating-icon">♡</span>
+                <span className="floating-icon" aria-hidden="true">♡</span>
                 <div>
                   <strong>Atención cercana</strong>
                   <small>Para cada etapa</small>
@@ -97,7 +99,7 @@ export default function HeroSection() {
               </div>
 
               <div className="floating-card floating-card-bottom">
-                <span className="floating-icon">✓</span>
+                <span className="floating-icon" aria-hidden="true">✓</span>
                 <div>
                   <strong>Reserva sencilla</strong>
                   <small>En pocos pasos</small>
@@ -105,16 +107,15 @@ export default function HeroSection() {
               </div>
 
               <div className="hero-review-card">
-                <div className="hero-review-stars">★★★★★</div>
                 <strong>Cuidado con propósito</strong>
                 <p>Una experiencia de atención clara, cálida y confiable.</p>
               </div>
             </div>
 
             <div className="hero-side-card">
-              <small>Reserva sugerida</small>
-              <strong>Pediatría · Dr. Daniel Vega</strong>
-              <p>Mañana · 09:30 a.m.</p>
+              <small>Reserva en línea</small>
+              <strong>Elija especialidad y profesional</strong>
+              <p>Consulte la disponibilidad antes de confirmar.</p>
               <button type="button" onClick={goToBooking}>Continuar reserva →</button>
             </div>
           </Reveal>
