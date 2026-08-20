@@ -15,17 +15,14 @@ export function downloadAppointmentPDF(
 
   doc.setFontSize(11)
   doc.setFont('helvetica', 'normal')
-  doc.text('Centro medico - comprobante DEMO', 20, 32)
+  doc.text('Comprobante de reserva', 20, 32)
 
   doc.setDrawColor(24, 81, 73)
   doc.line(20, 39, 190, 39)
 
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(16)
-  doc.text('Confirmacion de cita', 20, 52)
-
-  doc.setFontSize(11)
-  doc.setFont('helvetica', 'normal')
+  doc.text('Confirmación de cita', 20, 52)
 
   const rows = [
     ['Reserva', appointment.code],
@@ -37,18 +34,20 @@ export function downloadAppointmentPDF(
   ]
 
   let y = 68
+  doc.setFontSize(11)
+
   rows.forEach(([label, value]) => {
     doc.setFont('helvetica', 'bold')
     doc.text(`${label}:`, 20, y)
     doc.setFont('helvetica', 'normal')
-    doc.text(value, 58, y)
+    doc.text(String(value), 58, y)
     y += 12
   })
 
   doc.setFontSize(9)
   doc.setTextColor(100)
   doc.text(
-    'Este documento corresponde a una demostracion frontend. No representa una cita medica real.',
+    'Conserve este comprobante como referencia de su reserva.',
     20,
     y + 12,
     { maxWidth: 170 },

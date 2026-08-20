@@ -94,7 +94,7 @@ export default function BookingSection({
 
     onCreateAppointment(appointment)
     setGenerated(appointment)
-    onNotify('Cita demo reservada correctamente', 'success')
+    onNotify('Cita reservada correctamente', 'success')
   }
 
   const resetBooking = () => {
@@ -108,10 +108,9 @@ export default function BookingSection({
       <div className="container">
         <Reveal className="booking-intro">
           <span className="eyebrow eyebrow-light">Reserva inteligente</span>
-          <h2>Una experiencia de reserva que se siente real</h2>
+          <h2>Reserve su cita en pocos pasos</h2>
           <p>
-            Todo funciona únicamente en el navegador: datos mock, disponibilidad simulada
-            y persistencia local para fines de demostración.
+            Seleccione la especialidad, el profesional y el horario que mejor se adapte a sus necesidades.
           </p>
         </Reveal>
 
@@ -123,7 +122,7 @@ export default function BookingSection({
               [3, 'Fecha y hora'],
               [4, 'Confirmación'],
             ].map(([number, label]) => (
-              <button
+              <button type="button"
                 key={number}
                 className={`${step === number ? 'active' : ''} ${step > Number(number) ? 'done' : ''}`}
                 onClick={() => {
@@ -150,7 +149,7 @@ export default function BookingSection({
                 </div>
                 <div className="booking-choice-grid">
                   {specialties.map((item) => (
-                    <button
+                    <button type="button"
                       key={item.id}
                       className={`booking-choice-card ${draft.specialtyId === item.id ? 'selected' : ''}`}
                       onClick={() => selectSpecialty(item.id)}
@@ -173,7 +172,7 @@ export default function BookingSection({
                 </div>
                 <div className="booking-doctor-grid">
                   {filteredDoctors.map((item) => (
-                    <button
+                    <button type="button"
                       className={`booking-doctor-card ${draft.doctorId === item.id ? 'selected' : ''}`}
                       key={item.id}
                       onClick={() => selectDoctor(item.id)}
@@ -188,7 +187,7 @@ export default function BookingSection({
                     </button>
                   ))}
                 </div>
-                <button className="back-link" onClick={() => setStep(1)}>← Volver</button>
+                <button type="button" className="back-link" onClick={() => setStep(1)}>← Volver</button>
               </div>
             )}
 
@@ -197,7 +196,7 @@ export default function BookingSection({
                 <div className="booking-step-title">
                   <span>Paso 3 de 4</span>
                   <h3>Seleccione fecha y hora</h3>
-                  <p>La disponibilidad cambia de forma simulada según el profesional y la fecha.</p>
+                  <p>Consulte los horarios disponibles para el profesional seleccionado.</p>
                 </div>
 
                 <div className="calendar-time-layout">
@@ -214,7 +213,7 @@ export default function BookingSection({
                       <div className="availability-loading">
                         <span className="spinner" />
                         <strong>Consultando disponibilidad...</strong>
-                        <small>Simulación de carga frontend</small>
+                        <small>Buscando los horarios disponibles</small>
                       </div>
                     ) : (
                       <>
@@ -223,7 +222,7 @@ export default function BookingSection({
                         </div>
                         <div className="times-grid">
                           {times.map((time) => (
-                            <button
+                            <button type="button"
                               className={draft.time === time ? 'active' : ''}
                               key={time}
                               onClick={() => selectTime(time)}
@@ -233,14 +232,14 @@ export default function BookingSection({
                           ))}
                         </div>
                         <p className="scarcity-note">
-                          Algunos horarios se muestran ocupados de forma ficticia para hacer el demo más realista.
+                          Los horarios disponibles pueden variar según la fecha y el profesional.
                         </p>
                       </>
                     )}
                   </div>
                 </div>
 
-                <button className="back-link" onClick={() => setStep(2)}>← Volver</button>
+                <button type="button" className="back-link" onClick={() => setStep(2)}>← Volver</button>
               </div>
             )}
 
@@ -249,10 +248,10 @@ export default function BookingSection({
                 <div className="booking-step-title">
                   <span>Paso 4 de 4</span>
                   <h3>Revise y confirme</h3>
-                  <p>Compruebe los detalles antes de crear la reserva ficticia.</p>
+                  <p>Compruebe los detalles antes de confirmar la reserva.</p>
                 </div>
 
-                <div className="booking-summary-premium">
+                <div className="booking-summary">
                   <div className="summary-doctor">
                     <img src={doctor?.photo} alt={doctor?.name ?? ''} />
                     <div>
@@ -264,22 +263,22 @@ export default function BookingSection({
                   <div className="summary-detail-grid">
                     <div><span>Fecha</span><strong>{formatDate(draft.date)}</strong></div>
                     <div><span>Hora</span><strong>{draft.time}</strong></div>
-                    <div><span>Modalidad</span><strong>Presencial · Demo</strong></div>
+                    <div><span>Modalidad</span><strong>Presencial</strong></div>
                     <div><span>Duración</span><strong>45 min aprox.</strong></div>
                   </div>
                 </div>
 
-                <div className="demo-confirm-notice">
+                <div className="local-confirm-notice">
                   <span>i</span>
-                  <p>Al confirmar, la cita se guardará únicamente en LocalStorage de este navegador.</p>
+                  <p>Al confirmar, la cita se guardará únicamente en este dispositivo.</p>
                 </div>
 
                 <div className="confirmation-actions">
-                  <button className="button button-secondary" onClick={() => setStep(3)}>
+                  <button type="button" className="button button-secondary" onClick={() => setStep(3)}>
                     Modificar
                   </button>
-                  <button className="button button-primary" onClick={confirm}>
-                    Confirmar cita demo
+                  <button type="button" className="button button-primary" onClick={confirm}>
+                    Confirmar cita
                   </button>
                 </div>
               </div>
@@ -314,13 +313,13 @@ export default function BookingSection({
                 </div>
 
                 <div className="success-actions">
-                  <button onClick={() => downloadAppointmentPDF(generated, doctor, specialty)}>Descargar PDF</button>
-                  <button onClick={() => downloadICS(generated, doctor, specialty)}>Descargar .ICS</button>
-                  <button onClick={() => openGoogleCalendar(generated, doctor, specialty)}>Google Calendar</button>
-                  <button onClick={() => shareAppointmentOnWhatsApp(generated, doctor, specialty)}>Compartir WhatsApp</button>
+                  <button type="button" onClick={() => downloadAppointmentPDF(generated, doctor, specialty)}>Descargar PDF</button>
+                  <button type="button" onClick={() => downloadICS(generated, doctor, specialty)}>Descargar .ICS</button>
+                  <button type="button" onClick={() => openGoogleCalendar(generated, doctor, specialty)}>Google Calendar</button>
+                  <button type="button" onClick={() => shareAppointmentOnWhatsApp(generated, doctor, specialty)}>Compartir WhatsApp</button>
                 </div>
 
-                <button className="button button-primary" onClick={resetBooking}>
+                <button type="button" className="button button-primary" onClick={resetBooking}>
                   Reservar otra cita
                 </button>
               </div>

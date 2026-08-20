@@ -1,50 +1,61 @@
 import type { Appointment, BookingDraft } from '../types'
 
-const APPOINTMENTS_KEY = 'aura-vida-demo-appointments'
-const FAVORITES_KEY = 'aura-vida-demo-favorites'
-const DRAFT_KEY = 'aura-vida-demo-booking-draft'
+const APPOINTMENTS_KEY = 'aura-vida-appointments'
+const FAVORITES_KEY = 'aura-vida-favorites'
+const DRAFT_KEY = 'aura-vida-booking-draft'
+
+const emptyDraft: BookingDraft = {
+  specialtyId: '',
+  doctorId: '',
+  date: '',
+  time: '',
+}
+
+function readJSON<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key)
+    return raw ? (JSON.parse(raw) as T) : fallback
+  } catch {
+    return fallback
+  }
+}
+
+function writeJSON<T>(key: string, value: T) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch {
+    // El almacenamiento puede estar deshabilitado o sin espacio.
+  }
+}
 
 export function loadAppointments(): Appointment[] {
-  try {
-    return JSON.parse(localStorage.getItem(APPOINTMENTS_KEY) ?? '[]') as Appointment[]
-  } catch {
-    return []
-  }
+  const value = readJSON<unknown>(APPOINTMENTS_KEY, [])
+  return Array.isArray(value) ? (value as Appointment[]) : []
 }
 
 export function saveAppointments(items: Appointment[]) {
-  localStorage.setItem(APPOINTMENTS_KEY, JSON.stringify(items))
+  writeJSON(APPOINTMENTS_KEY, items)
 }
 
 export function loadFavorites(): string[] {
-  try {
-    return JSON.parse(localStorage.getItem(FAVORITES_KEY) ?? '[]') as string[]
-  } catch {
-    return []
-  }
+  const value = readJSON<unknown>(FAVORITES_KEY, [])
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
 }
 
 export function saveFavorites(items: string[]) {
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(items))
+  writeJSON(FAVORITES_KEY, items)
 }
 
 export function loadDraft(): BookingDraft {
-  try {
-    return JSON.parse(
-      localStorage.getItem(DRAFT_KEY) ??
-        '{"specialtyId":"","doctorId":"","date":"","time":""}',
-    ) as BookingDraft
-  } catch {
-    return { specialtyId: '', doctorId: '', date: '', time: '' }
+  const value = readJSON<Partial<BookingDraft>>(DRAFT_KEY, emptyDraft)
+  return {
+    specialtyId: typeof value.specialtyId === 'string' ? value.specialtyId : '',
+    doctorId: typeof value.doctorId === 'string' ? value.doctorId : '',
+    date: typeof value.date === 'string' ? value.date : '',
+    time: typeof value.time === 'string' ? value.time : '',
   }
 }
 
 export function saveDraft(draft: BookingDraft) {
-  localStorage.setItem(DRAFT_KEY, JSON.stringify(draft))
-}
-
-export function clearDemoStorage() {
-  localStorage.removeItem(APPOINTMENTS_KEY)
-  localStorage.removeItem(FAVORITES_KEY)
-  localStorage.removeItem(DRAFT_KEY)
+  writeJSON(DRAFT_KEY, draft)
 }

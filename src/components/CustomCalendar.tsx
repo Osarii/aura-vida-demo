@@ -34,6 +34,8 @@ export default function CustomCalendar({ value, onChange }: Props) {
   const now = new Date()
   const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1)
   const canGoPrevious = cursor > currentMonthStart
+  const maxMonthStart = new Date(now.getFullYear(), now.getMonth() + 6, 1)
+  const canGoNext = cursor < maxMonthStart
 
   return (
     <div className="calendar-card">
@@ -41,6 +43,7 @@ export default function CustomCalendar({ value, onChange }: Props) {
         <button
           type="button"
           className="icon-button"
+          aria-label="Mes anterior"
           disabled={!canGoPrevious}
           onClick={() =>
             setCursor(new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1))
@@ -52,6 +55,8 @@ export default function CustomCalendar({ value, onChange }: Props) {
         <button
           type="button"
           className="icon-button"
+          aria-label="Mes siguiente"
+          disabled={!canGoNext}
           onClick={() =>
             setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1))
           }
@@ -78,6 +83,12 @@ export default function CustomCalendar({ value, onChange }: Props) {
               key={key}
               className={active ? 'active' : ''}
               disabled={disabled}
+              aria-pressed={active}
+              aria-label={new Intl.DateTimeFormat('es-CR', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+              }).format(date)}
               onClick={() => onChange(key)}
             >
               {date.getDate()}
@@ -85,7 +96,7 @@ export default function CustomCalendar({ value, onChange }: Props) {
           )
         })}
       </div>
-      <p className="calendar-note">Los domingos aparecen deshabilitados en este demo.</p>
+      <p className="calendar-note">Los domingos no se muestran como días de atención.</p>
     </div>
   )
 }

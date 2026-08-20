@@ -7,6 +7,12 @@ export function useReveal<T extends HTMLElement>() {
     const node = ref.current
     if (!node) return
 
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      node.classList.add('is-visible')
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -14,7 +20,7 @@ export function useReveal<T extends HTMLElement>() {
           observer.disconnect()
         }
       },
-      { threshold: 0.12 },
+      { threshold: 0.08, rootMargin: '0px 0px -24px' },
     )
 
     observer.observe(node)

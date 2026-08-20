@@ -54,20 +54,20 @@ export default function MyAppointmentsModal({
         </div>
 
         <div className="appointment-actions">
-          <button onClick={() => downloadAppointmentPDF(appointment, doctor, specialty)}>
+          <button type="button" onClick={() => downloadAppointmentPDF(appointment, doctor, specialty)}>
             PDF
           </button>
-          <button onClick={() => downloadICS(appointment, doctor, specialty)}>
+          <button type="button" onClick={() => downloadICS(appointment, doctor, specialty)}>
             .ICS
           </button>
-          <button onClick={() => openGoogleCalendar(appointment, doctor, specialty)}>
+          <button type="button" onClick={() => openGoogleCalendar(appointment, doctor, specialty)}>
             Google Calendar
           </button>
-          <button onClick={() => shareAppointmentOnWhatsApp(appointment, doctor, specialty)}>
+          <button type="button" onClick={() => shareAppointmentOnWhatsApp(appointment, doctor, specialty)}>
             WhatsApp
           </button>
           {appointment.status === 'upcoming' && (
-            <button className="danger-link" onClick={() => onCancel(appointment.id)}>
+            <button type="button" className="danger-link" onClick={() => onCancel(appointment.id)}>
               Cancelar
             </button>
           )}
@@ -77,19 +77,18 @@ export default function MyAppointmentsModal({
   }
 
   return (
-    <Modal isOpen={isOpen} title="Mis citas demo" onClose={onClose} wide>
+    <Modal isOpen={isOpen} title="Mis citas" onClose={onClose} wide>
       <div className="storage-notice">
         <span>i</span>
         <p>
-          Estas citas existen únicamente en este navegador mediante LocalStorage.
-          No se envían a ningún servidor.
+          Las citas guardadas aquí permanecen únicamente en este dispositivo.
         </p>
       </div>
 
       {appointments.length === 0 ? (
         <div className="empty-state">
           <div>♡</div>
-          <h4>Todavía no hay citas demo</h4>
+          <h4>Todavía no hay citas</h4>
           <p>Complete el flujo de reserva para crear la primera.</p>
         </div>
       ) : (

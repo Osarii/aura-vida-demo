@@ -3,9 +3,9 @@ import Reveal from '../components/Reveal'
 
 const benefits = [
   ['♡', 'Atención personalizada', 'Escuchamos sus necesidades y acompañamos cada proceso de forma cercana.'],
-  ['✦', 'Profesionales calificados', 'Equipo médico seleccionado para brindar una atención segura y confiable.'],
+  ['✦', 'Profesionales calificados', 'Un enfoque profesional orientado a una atención segura, clara y confiable.'],
   ['⌂', 'Ambiente seguro', 'Espacios pensados para transmitir calma, privacidad y bienestar.'],
-  ['◎', 'Tecnología moderna', 'Herramientas y procesos actuales para una experiencia médica de calidad.'],
+  ['◎', 'Procesos claros', 'Información organizada y un flujo sencillo para acompañar cada visita.'],
 ]
 
 export default function BenefitsSection() {

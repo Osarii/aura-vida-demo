@@ -21,13 +21,13 @@ export default function SpecialtiesSection({ onReserveSpecialty }: Props) {
           <SectionHeading
             eyebrow="Nuestras especialidades"
             title="Cuidado integral para usted y su familia"
-            description="Explore cada área y continúe directamente a una reserva simulada."
+            description="Explore cada área y continúe directamente al proceso de reserva."
           />
         </Reveal>
 
         <Reveal className="specialties-grid">
           {specialties.map((item) => (
-            <button className="specialty-card" key={item.id} onClick={() => setSelected(item)}>
+            <button type="button" className="specialty-card" key={item.id} onClick={() => setSelected(item)}>
               <div className="specialty-icon">{item.icon}</div>
               <h3>{item.name}</h3>
               <p>{item.shortDescription}</p>
@@ -37,7 +37,7 @@ export default function SpecialtiesSection({ onReserveSpecialty }: Props) {
         </Reveal>
 
         <Reveal className="center-actions">
-          <button className="button button-outline" onClick={() => setDirectoryOpen(true)}>
+          <button type="button" className="button button-outline" onClick={() => setDirectoryOpen(true)}>
             Ver todas las especialidades
           </button>
         </Reveal>
@@ -66,6 +66,7 @@ export default function SpecialtiesSection({ onReserveSpecialty }: Props) {
                 ))}
             </div>
             <button
+              type="button"
               className="button button-primary button-full modal-primary-action"
               onClick={() => {
                 setSelected(null)
@@ -92,7 +93,7 @@ export default function SpecialtiesSection({ onReserveSpecialty }: Props) {
                 <h4>{item.name}</h4>
                 <p>{item.description}</p>
               </div>
-              <button
+              <button type="button"
                 className="button button-primary compact-button"
                 onClick={() => {
                   setDirectoryOpen(false)

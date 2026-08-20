@@ -5,7 +5,6 @@ import wordmarkLogo from '../assets/aura-vida-wordmark.png'
 type Props = {
   appointmentCount: number
   onOpenAppointments: () => void
-  onResetDemo: () => void
 }
 
 const links = [
@@ -17,23 +16,23 @@ const links = [
   ['Contacto', 'contacto'],
 ] as const
 
-export default function Header({
-  appointmentCount,
-  onOpenAppointments,
-  onResetDemo,
-}: Props) {
+export default function Header({ appointmentCount, onOpenAppointments }: Props) {
   const [open, setOpen] = useState(false)
-  const [demoOpen, setDemoOpen] = useState(false)
 
   const goTo = (id: string) => {
     setOpen(false)
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
     <header className="site-header">
       <div className="container nav-shell">
-        <button className="brand brand-official" onClick={() => goTo('inicio')} aria-label="Ir al inicio">
+        <button
+          type="button"
+          className="brand brand-official"
+          onClick={() => goTo('inicio')}
+          aria-label="Ir al inicio"
+        >
           <img className="brand-symbol-image" src={symbolLogo} alt="" aria-hidden="true" />
           <img
             className="brand-wordmark-image"
@@ -44,40 +43,28 @@ export default function Header({
 
         <nav className="desktop-nav" aria-label="Navegación principal">
           {links.map(([label, id]) => (
-            <button key={id} onClick={() => goTo(id)}>
+            <button type="button" key={id} onClick={() => goTo(id)}>
               {label}
             </button>
           ))}
         </nav>
 
-        <button className="my-appointments-button" onClick={onOpenAppointments}>
+        <button type="button" className="my-appointments-button" onClick={onOpenAppointments}>
           Mis citas
-          <span>{appointmentCount}</span>
+          <span aria-label={`${appointmentCount} citas próximas`}>{appointmentCount}</span>
         </button>
 
-        <div className="demo-control">
-          <button className="demo-badge" onClick={() => setDemoOpen((value) => !value)}>
-            DEMO MODE
-          </button>
-          {demoOpen && (
-            <div className="demo-popover">
-              <strong>Frontend simulado</strong>
-              <span>Datos mock · Sin backend</span>
-              <span>Persistencia: LocalStorage</span>
-              <button onClick={onResetDemo}>Restablecer demo</button>
-            </div>
-          )}
-        </div>
-
-        <button className="button button-primary desktop-cta" onClick={() => goTo('reservar')}>
+        <button type="button" className="button button-primary desktop-cta" onClick={() => goTo('reservar')}>
           Reservar
         </button>
 
         <button
-          className="menu-button"
+          type="button"
+          className={`menu-button ${open ? 'is-open' : ''}`}
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
-          aria-label="Abrir menú"
+          aria-controls="mobile-navigation"
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
         >
           <span />
           <span />
@@ -86,14 +73,21 @@ export default function Header({
       </div>
 
       {open && (
-        <nav className="mobile-nav" aria-label="Navegación móvil">
+        <nav id="mobile-navigation" className="mobile-nav" aria-label="Navegación móvil">
           {links.map(([label, id]) => (
-            <button key={id} onClick={() => goTo(id)}>
+            <button type="button" key={id} onClick={() => goTo(id)}>
               {label}
             </button>
           ))}
-          <button onClick={onOpenAppointments}>Mis citas ({appointmentCount})</button>
-          <button onClick={onResetDemo}>Restablecer demo</button>
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false)
+              onOpenAppointments()
+            }}
+          >
+            Mis citas ({appointmentCount})
+          </button>
         </nav>
       )}
     </header>

@@ -2,11 +2,11 @@ import Reveal from '../components/Reveal'
 
 export default function HeroSection() {
   const goToBooking = () =>
-    document.getElementById('reservar')?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById('reservar')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   const openWhatsapp = () => {
     window.open(
-      'https://wa.me/50670000000?text=Hola%20Aura%20%26%20Vida.%20Quisiera%20informaci%C3%B3n%20%28demo%29',
+      'https://wa.me/50670000000?text=Hola%20Aura%20%26%20Vida.%20Quisiera%20informaci%C3%B3n',
       '_blank',
       'noopener,noreferrer',
     )
@@ -24,10 +24,6 @@ export default function HeroSection() {
           <Reveal className="hero-copy">
             <div className="hero-topline">
               <span className="eyebrow">Cuidamos lo que más importa</span>
-              <div className="hero-inline-note">
-                <span className="hero-inline-dot" />
-                Demo interactivo premium
-              </div>
             </div>
 
             <div className="hero-message-card">
@@ -37,16 +33,16 @@ export default function HeroSection() {
                 <span> nuestra vocación</span>
               </h1>
               <p>
-                Atención médica cálida, profesional y cercana para acompañarle en cada
-                etapa. Un espacio diseñado para transmitir tranquilidad, confianza
-                y una experiencia premium para usted y su familia.
+                Atención médica cálida, profesional y cercana para acompañarle en cada etapa.
+                Un espacio pensado para transmitir tranquilidad, confianza y atención especializada
+                para usted y su familia.
               </p>
 
               <div className="hero-actions">
-                <button className="button button-primary" onClick={goToBooking}>
+                <button type="button" className="button button-primary" onClick={goToBooking}>
                   Reservar cita
                 </button>
-                <button className="button button-secondary" onClick={openWhatsapp}>
+                <button type="button" className="button button-secondary" onClick={openWhatsapp}>
                   Escríbenos por WhatsApp
                 </button>
               </div>
@@ -58,27 +54,27 @@ export default function HeroSection() {
                 </article>
                 <article>
                   <strong>Reserva guiada</strong>
-                  <span>Flujo paso a paso</span>
+                  <span>Proceso claro paso a paso</span>
                 </article>
                 <article>
-                  <strong>Datos demo</strong>
-                  <span>Sin backend · experiencia realista</span>
+                  <strong>Atención cercana</strong>
+                  <span>Confianza y acompañamiento</span>
                 </article>
               </div>
             </div>
 
             <div className="hero-trust">
               <div>
-                <strong>+12</strong>
-                <span>Años de experiencia</span>
+                <strong>Integral</strong>
+                <span>Atención coordinada</span>
               </div>
               <div>
-                <strong>5★</strong>
-                <span>Atención humana</span>
+                <strong>Cercana</strong>
+                <span>Trato humano</span>
               </div>
               <div>
-                <strong>100%</strong>
-                <span>Demo frontend</span>
+                <strong>Clara</strong>
+                <span>Reserva sencilla</span>
               </div>
             </div>
           </Reveal>
@@ -89,6 +85,7 @@ export default function HeroSection() {
               <img
                 src="https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&w=1200&q=85"
                 alt="Madre abrazando a su bebé"
+                fetchPriority="high"
               />
 
               <div className="floating-card floating-card-top">
@@ -109,8 +106,8 @@ export default function HeroSection() {
 
               <div className="hero-review-card">
                 <div className="hero-review-stars">★★★★★</div>
-                <strong>Experiencia premium</strong>
-                <p>Simulación visual de una atención clara, cálida y confiable.</p>
+                <strong>Cuidado con propósito</strong>
+                <p>Una experiencia de atención clara, cálida y confiable.</p>
               </div>
             </div>
 
@@ -118,7 +115,7 @@ export default function HeroSection() {
               <small>Reserva sugerida</small>
               <strong>Pediatría · Dr. Daniel Vega</strong>
               <p>Mañana · 09:30 a.m.</p>
-              <button onClick={goToBooking}>Continuar reserva →</button>
+              <button type="button" onClick={goToBooking}>Continuar reserva →</button>
             </div>
           </Reveal>
         </div>

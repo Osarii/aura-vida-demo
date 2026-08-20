@@ -1,26 +1,24 @@
 import Reveal from '../components/Reveal'
-import { useCountUp } from '../hooks/useCountUp'
 
-function Stat({ target, suffix, label }: { target: number; suffix: string; label: string }) {
-  const value = useCountUp(target)
-  return (
-    <div className="stat-card">
-      <strong>{value.toLocaleString('es-CR')}{suffix}</strong>
-      <span>{label}</span>
-    </div>
-  )
-}
+const highlights = [
+  ['♡', 'Atención integral', 'Acompañamiento en cada etapa'],
+  ['✓', 'Reserva sencilla', 'Proceso claro y rápido'],
+  ['✦', 'Equipo especializado', 'Atención enfocada en la familia'],
+  ['◷', 'Seguimiento cercano', 'Información accesible y ordenada'],
+]
 
 export default function StatsSection() {
   return (
-    <section className="stats-strip">
+    <section className="stats-strip" aria-label="Aspectos destacados">
       <Reveal className="container stats-grid">
-        <Stat target={12} suffix="+" label="Años de experiencia" />
-        <Stat target={5000} suffix="+" label="Pacientes atendidos*" />
-        <Stat target={5} suffix="" label="Especialidades" />
-        <Stat target={98} suffix="%" label="Satisfacción demo*" />
+        {highlights.map(([icon, title, text]) => (
+          <div className="stat-card" key={title}>
+            <strong aria-hidden="true">{icon}</strong>
+            <span>{title}</span>
+            <small>{text}</small>
+          </div>
+        ))}
       </Reveal>
-      <p className="stats-disclaimer">* Cifras ficticias para fines de demostración.</p>
     </section>
   )
 }

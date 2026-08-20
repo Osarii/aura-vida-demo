@@ -20,13 +20,6 @@ export type Doctor = {
   languages: string[]
 }
 
-export type Testimonial = {
-  id: string
-  name: string
-  category: string
-  comment: string
-  stars: number
-}
 
 export type BookingDraft = {
   specialtyId: string

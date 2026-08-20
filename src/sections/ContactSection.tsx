@@ -3,10 +3,14 @@ import Reveal from '../components/Reveal'
 import { contactInfo } from '../data/contact'
 
 export default function ContactSection() {
-  const openPhone = () => window.location.href = 'tel:+50622000000'
-  const openMail = () => window.location.href = 'mailto:hola@aurayvida.demo'
+  const openPhone = () => { window.location.href = 'tel:+50622000000' }
+  const openMail = () => { window.location.href = 'mailto:hola@aurayvida.com' }
   const openWhatsapp = () =>
-    window.open('https://wa.me/50670000000?text=Hola%20Aura%20%26%20Vida%20%28demo%29', '_blank', 'noopener,noreferrer')
+    window.open(
+      'https://wa.me/50670000000?text=Hola%20Aura%20%26%20Vida',
+      '_blank',
+      'noopener,noreferrer',
+    )
 
   return (
     <section className="section section-soft" id="contacto">
@@ -15,20 +19,20 @@ export default function ContactSection() {
           <SectionHeading
             eyebrow="Ubicación y contacto"
             title="Estamos para atenderle"
-            description="Los datos de contacto son ficticios y se muestran solo como parte del demo."
+            description="Puede comunicarse con nosotros por teléfono, WhatsApp o correo electrónico."
             centered={false}
           />
 
           <div className="contact-list">
-            <button onClick={openPhone}>
+            <button type="button" onClick={openPhone}>
               <span>☎</span>
               <div><small>Teléfono</small><strong>{contactInfo.phone}</strong></div>
             </button>
-            <button onClick={openWhatsapp}>
+            <button type="button" onClick={openWhatsapp}>
               <span>✆</span>
               <div><small>WhatsApp</small><strong>{contactInfo.whatsapp}</strong></div>
             </button>
-            <button onClick={openMail}>
+            <button type="button" onClick={openMail}>
               <span>✉</span>
               <div><small>Correo</small><strong>{contactInfo.email}</strong></div>
             </button>
@@ -39,7 +43,7 @@ export default function ContactSection() {
           </div>
         </div>
 
-        <div className="map-card" aria-label="Mapa visual simulado">
+        <div className="map-card" aria-label="Referencia visual de ubicación">
           <div className="map-grid" />
           <div className="map-road road-one" />
           <div className="map-road road-two" />
@@ -48,7 +52,6 @@ export default function ContactSection() {
             <strong>Aura & Vida</strong>
             <span>{contactInfo.address}</span>
           </div>
-          <span className="demo-tag">Mapa demo</span>
         </div>
       </Reveal>
     </section>

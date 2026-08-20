@@ -69,17 +69,17 @@ export default function DoctorsSection({
             <h3>{doctors[featuredIndex].name}</h3>
             <p>{doctors[featuredIndex].specialty} · ★ {doctors[featuredIndex].rating} · {doctors[featuredIndex].experienceYears} años de experiencia</p>
             <div className="featured-doctor-actions">
-              <button className="button button-primary" onClick={() => onReserveDoctor(doctors[featuredIndex])}>
+              <button type="button" className="button button-primary" onClick={() => onReserveDoctor(doctors[featuredIndex])}>
                 Reservar con este profesional
               </button>
-              <button className="button button-secondary" onClick={() => setSelected(doctors[featuredIndex])}>
+              <button type="button" className="button button-secondary" onClick={() => setSelected(doctors[featuredIndex])}>
                 Ver perfil
               </button>
             </div>
           </div>
-          <img src={doctors[featuredIndex].photo} alt={doctors[featuredIndex].name} />
+          <img src={doctors[featuredIndex].photo} alt={doctors[featuredIndex].name} decoding="async" />
           <div className="featured-carousel-buttons">
-            <button
+            <button type="button"
               className="icon-button"
               onClick={() => setFeaturedIndex((current) => (current - 1 + doctors.length) % doctors.length)}
               aria-label="Profesional anterior"
@@ -87,7 +87,7 @@ export default function DoctorsSection({
               ←
             </button>
             <span>{featuredIndex + 1} / {doctors.length}</span>
-            <button
+            <button type="button"
               className="icon-button"
               onClick={() => setFeaturedIndex((current) => (current + 1) % doctors.length)}
               aria-label="Profesional siguiente"
@@ -121,7 +121,7 @@ export default function DoctorsSection({
             <option value="name">Nombre A–Z</option>
           </select>
 
-          <button
+          <button type="button"
             className={`favorite-filter ${onlyFavorites ? 'active' : ''}`}
             onClick={() => setOnlyFavorites((value) => !value)}
           >
@@ -142,12 +142,14 @@ export default function DoctorsSection({
               return (
                 <article className="doctor-card" key={doctor.id}>
                   <div className="doctor-photo">
-                    <img src={doctor.photo} alt={doctor.name} />
+                    <img src={doctor.photo} alt={doctor.name} loading="lazy" decoding="async" />
                     <span>Especialista</span>
                     <button
+                      type="button"
                       className={`favorite-button ${favorite ? 'active' : ''}`}
                       onClick={() => onToggleFavorite(doctor.id)}
                       aria-label={favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                      aria-pressed={favorite}
                     >
                       {favorite ? '♥' : '♡'}
                     </button>
@@ -155,20 +157,20 @@ export default function DoctorsSection({
                   <div className="doctor-card-body">
                     <div className="doctor-card-rating">
                       <span>★ {doctor.rating}</span>
-                      <small>{doctor.reviews} reseñas demo</small>
+                      <small>{doctor.reviews} reseñas</small>
                     </div>
                     <h3>{doctor.name}</h3>
                     <p className="doctor-specialty">{doctor.specialty}</p>
                     <p>{doctor.bio}</p>
                     <div className="availability-line">
                       <span>● Alta disponibilidad</span>
-                      <small>Próximos días</small>
+                      <small>Próxima cita</small>
                     </div>
                     <div className="doctor-actions">
-                      <button className="text-link" onClick={() => setSelected(doctor)}>
+                      <button type="button" className="text-link" onClick={() => setSelected(doctor)}>
                         Ver perfil
                       </button>
-                      <button className="button button-primary compact-button" onClick={() => onReserveDoctor(doctor)}>
+                      <button type="button" className="button button-primary compact-button" onClick={() => onReserveDoctor(doctor)}>
                         Reservar
                       </button>
                     </div>
@@ -195,8 +197,8 @@ export default function DoctorsSection({
         {selected && (
           <div className="doctor-detail">
             <div className="doctor-detail-image">
-              <img src={selected.photo} alt={selected.name} />
-              <button
+              <img src={selected.photo} alt={selected.name} decoding="async" />
+              <button type="button"
                 className={`favorite-button detail-favorite ${favorites.includes(selected.id) ? 'active' : ''}`}
                 onClick={() => onToggleFavorite(selected.id)}
               >
@@ -207,7 +209,7 @@ export default function DoctorsSection({
               <span className="pill">{selected.specialty}</span>
               <div className="detail-rating">
                 <strong>★ {selected.rating}</strong>
-                <span>{selected.reviews} reseñas ficticias</span>
+                <span>{selected.reviews} reseñas</span>
               </div>
               <p>{selected.bio}</p>
               <div className="detail-meta">
@@ -222,7 +224,7 @@ export default function DoctorsSection({
                 <span>Próxima disponibilidad</span>
                 <strong>Mañana · 09:30 a.m.</strong>
               </div>
-              <button
+              <button type="button"
                 className="button button-primary button-full"
                 onClick={() => {
                   setSelected(null)

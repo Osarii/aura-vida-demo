@@ -9,12 +9,11 @@ import BenefitsSection from './sections/BenefitsSection'
 import SpecialtiesSection from './sections/SpecialtiesSection'
 import BookingSection from './sections/BookingSection'
 import DoctorsSection from './sections/DoctorsSection'
-import TestimonialsSection from './sections/TestimonialsSection'
+import CarePrinciplesSection from './sections/CarePrinciplesSection'
 import ContactSection from './sections/ContactSection'
 import FinalCTA from './sections/FinalCTA'
 import type { Appointment, BookingDraft, Doctor, ToastMessage } from './types'
 import {
-  clearDemoStorage,
   loadAppointments,
   loadDraft,
   loadFavorites,
@@ -63,17 +62,9 @@ export default function App() {
         item.id === id ? { ...item, status: 'cancelled' as const } : item,
       ),
     )
-    notify('Cita demo cancelada', 'info')
+    notify('Cita cancelada', 'info')
   }
 
-  const resetDemo = () => {
-    clearDemoStorage()
-    setAppointments([])
-    setFavorites([])
-    setDraft({ specialtyId: '', doctorId: '', date: '', time: '' })
-    setAppointmentsOpen(false)
-    notify('Demo restablecido correctamente', 'success')
-  }
 
   const reserveSpecialty = (specialtyId: string) => {
     setDraft({ specialtyId, doctorId: '', date: '', time: '' })
@@ -97,7 +88,6 @@ export default function App() {
       <Header
         appointmentCount={appointments.filter((item) => item.status === 'upcoming').length}
         onOpenAppointments={() => setAppointmentsOpen(true)}
-        onResetDemo={resetDemo}
       />
       <main>
         <HeroSection />
@@ -115,11 +105,11 @@ export default function App() {
           onCreateAppointment={createAppointment}
           onNotify={notify}
         />
-        <TestimonialsSection />
+        <CarePrinciplesSection />
         <ContactSection />
         <FinalCTA />
       </main>
-      <Footer onSocialClick={(network) => notify(`${network}: enlace demo`, 'info')} />
+      <Footer />
 
       <MyAppointmentsModal
         isOpen={appointmentsOpen}

@@ -1,32 +1,44 @@
 import type { Appointment, Doctor, Specialty } from '../types'
 import { formatDate } from './date'
 
+function stamp(date: Date) {
+  return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
+}
+
+function escapeICS(value: string) {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n')
+}
+
+function getAppointmentDates(appointment: Appointment) {
+  const start = new Date(`${appointment.date}T${appointment.time}:00`)
+  const end = new Date(start.getTime() + 45 * 60 * 1000)
+  return { start, end }
+}
+
 export function downloadICS(
   appointment: Appointment,
   doctor: Doctor,
   specialty: Specialty,
 ) {
-  const start = new Date(`${appointment.date}T${appointment.time}:00`)
-  const end = new Date(start.getTime() + 45 * 60 * 1000)
-
-  const stamp = (date: Date) =>
-    date
-      .toISOString()
-      .replace(/[-:]/g, '')
-      .replace(/\.\d{3}Z$/, 'Z')
+  const { start, end } = getAppointmentDates(appointment)
 
   const ics = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Aura Vida Demo//ES',
+    'PRODID:-//Aura Vida//ES',
+    'CALSCALE:GREGORIAN',
     'BEGIN:VEVENT',
-    `UID:${appointment.code}@aurayvida.demo`,
+    `UID:${escapeICS(appointment.code)}@aurayvida.local`,
     `DTSTAMP:${stamp(new Date())}`,
     `DTSTART:${stamp(start)}`,
     `DTEND:${stamp(end)}`,
-    `SUMMARY:Cita demo - ${specialty.name}`,
-    `DESCRIPTION:${doctor.name} - Reserva ${appointment.code} - DEMO`,
-    'LOCATION:Aura & Vida - ubicación demo',
+    `SUMMARY:${escapeICS(`Cita - ${specialty.name}`)}`,
+    `DESCRIPTION:${escapeICS(`${doctor.name} - Reserva ${appointment.code}`)}`,
+    'LOCATION:Aura & Vida',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n')
@@ -36,8 +48,10 @@ export function downloadICS(
   const anchor = document.createElement('a')
   anchor.href = url
   anchor.download = `Aura-Vida-${appointment.code}.ics`
+  document.body.appendChild(anchor)
   anchor.click()
-  URL.revokeObjectURL(url)
+  anchor.remove()
+  window.setTimeout(() => URL.revokeObjectURL(url), 0)
 }
 
 export function openGoogleCalendar(
@@ -45,18 +59,20 @@ export function openGoogleCalendar(
   doctor: Doctor,
   specialty: Specialty,
 ) {
-  const start = new Date(`${appointment.date}T${appointment.time}:00`)
-  const end = new Date(start.getTime() + 45 * 60 * 1000)
-  const compact = (date: Date) =>
-    date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
+  const { start, end } = getAppointmentDates(appointment)
   const params = new URLSearchParams({
     action: 'TEMPLATE',
-    text: `Cita demo - ${specialty.name}`,
-    dates: `${compact(start)}/${compact(end)}`,
-    details: `${doctor.name} · Reserva ${appointment.code} · Demo frontend`,
-    location: 'Aura & Vida · ubicación demo',
+    text: `Cita - ${specialty.name}`,
+    dates: `${stamp(start)}/${stamp(end)}`,
+    details: `${doctor.name} · Reserva ${appointment.code}`,
+    location: 'Aura & Vida',
   })
-  window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, '_blank', 'noopener,noreferrer')
+
+  window.open(
+    `https://calendar.google.com/calendar/render?${params.toString()}`,
+    '_blank',
+    'noopener,noreferrer',
+  )
 }
 
 export function shareAppointmentOnWhatsApp(
@@ -65,14 +81,12 @@ export function shareAppointmentOnWhatsApp(
   specialty: Specialty,
 ) {
   const message = [
-    'Aura & Vida — Confirmación de cita demo',
+    'Aura & Vida — Confirmación de cita',
     `Reserva: ${appointment.code}`,
     `Especialidad: ${specialty.name}`,
     `Profesional: ${doctor.name}`,
     `Fecha: ${formatDate(appointment.date)}`,
     `Hora: ${appointment.time}`,
-    '',
-    'Esta es una demostración frontend.',
   ].join('\n')
 
   window.open(
