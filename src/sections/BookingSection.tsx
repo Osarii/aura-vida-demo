@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react'
 import CustomCalendar from '../components/CustomCalendar'
 import Reveal from '../components/Reveal'
 import Icon from '../components/Icon'
@@ -108,7 +108,7 @@ export default function BookingSection({
     const stillAvailable = times.includes(draft.time)
     if (!stillAvailable) {
       setDraft({ ...draft, time: '' })
-      onNotify('Ese horario ya no estÃ¡ disponible. Seleccione otro.', 'info')
+      onNotify('Ese horario ya no está disponible. Seleccione otro.', 'info')
     }
   }, [appointments, draft, times, setDraft, onNotify, generated])
 
@@ -136,12 +136,12 @@ export default function BookingSection({
 
   const selectTime = (time: string) => {
     if (isPastAppointmentSlot(draft.date, time)) {
-      onNotify('Ese horario ya pasÃ³. Seleccione otro.', 'error')
+      onNotify('Ese horario ya pasó. Seleccione otro.', 'error')
       return
     }
 
     if (isDuplicateActiveAppointment(appointments, draft.doctorId, draft.date, time)) {
-      onNotify('Ese horario ya estÃ¡ reservado en este dispositivo.', 'error')
+      onNotify('Ese horario ya está reservado en este dispositivo.', 'error')
       return
     }
 
@@ -162,7 +162,7 @@ export default function BookingSection({
     if (isPastAppointmentSlot(draft.date, draft.time)) {
       setDraft({ ...draft, time: '' })
       setStep(3)
-      onNotify('El horario seleccionado ya pasÃ³. Elija uno nuevo.', 'error')
+      onNotify('El horario seleccionado ya pasó. Elija uno nuevo.', 'error')
       return
     }
 
@@ -176,7 +176,7 @@ export default function BookingSection({
     ) {
       setDraft({ ...draft, time: '' })
       setStep(3)
-      onNotify('Ese horario ya estÃ¡ reservado en este dispositivo.', 'error')
+      onNotify('Ese horario ya está reservado en este dispositivo.', 'error')
       return
     }
 
@@ -219,7 +219,7 @@ export default function BookingSection({
               [1, 'Especialidad'],
               [2, 'Profesional'],
               [3, 'Fecha y hora'],
-              [4, 'ConfirmaciÃ³n'],
+              [4, 'Confirmación'],
             ].map(([number, label]) => {
               const n = Number(number)
               const enabled =
@@ -250,7 +250,7 @@ export default function BookingSection({
                 <div className="booking-step-title">
                   <span>Paso 1 de 4</span>
                   <h3>Seleccione una especialidad</h3>
-                  <p>Elija el Ã¡rea de atenciÃ³n que necesita.</p>
+                  <p>Elija el área de atención que necesita.</p>
                 </div>
                 <div className="booking-choice-grid">
                   {specialties.map((item) => (
@@ -275,7 +275,7 @@ export default function BookingSection({
                 <div className="booking-step-title">
                   <span>Paso 2 de 4</span>
                   <h3>Elija su profesional</h3>
-                  <p>Mostramos Ãºnicamente especialistas de {specialty?.name}.</p>
+                  <p>Mostramos únicamente especialistas de {specialty?.name}.</p>
                 </div>
                 <div className="booking-doctor-grid">
                   {filteredDoctors.map((item) => (
@@ -290,7 +290,7 @@ export default function BookingSection({
                       <div>
                         <strong>{item.name}</strong>
                         <span>{item.specialty}</span>
-                        <small>{item.experienceYears} aÃ±os de experiencia</small>
+                        <small>{item.experienceYears} años de experiencia</small>
                         <b>Consultar disponibilidad</b>
                       </div>
                     </button>
@@ -349,7 +349,7 @@ export default function BookingSection({
                           ))}
                         </div>
                         <p className="scarcity-note">
-                          Los horarios disponibles pueden variar segÃºn la fecha y el profesional.
+                          Los horarios disponibles pueden variar según la fecha y el profesional.
                         </p>
                       </>
                     )}
@@ -374,20 +374,20 @@ export default function BookingSection({
                     <div>
                       <span>{specialty?.name}</span>
                       <strong>{doctor?.name}</strong>
-                      <small>{doctor?.experienceYears} aÃ±os de experiencia</small>
+                      <small>{doctor?.experienceYears} años de experiencia</small>
                     </div>
                   </div>
                   <div className="summary-detail-grid">
                     <div><span>Fecha</span><strong>{formatDate(draft.date)}</strong></div>
                     <div><span>Hora</span><strong>{draft.time}</strong></div>
                     <div><span>Modalidad</span><strong>Presencial</strong></div>
-                    <div><span>DuraciÃ³n</span><strong>45 min aprox.</strong></div>
+                    <div><span>Duración</span><strong>45 min aprox.</strong></div>
                   </div>
                 </div>
 
                 <div className="local-confirm-notice">
                   <span aria-hidden="true"><Icon name="info" size={16} /></span>
-                  <p>Al confirmar, la cita se guardarÃ¡ Ãºnicamente en este dispositivo.</p>
+                  <p>Al confirmar, la cita se guardará únicamente en este dispositivo.</p>
                 </div>
 
                 <div className="confirmation-actions">
@@ -405,9 +405,9 @@ export default function BookingSection({
               <div className="success-screen">
                 <div className="success-ring" aria-hidden="true"><Icon name="check-circle" size={38} /></div>
                 <span className="success-label">Reserva completada</span>
-                <h3>Â¡Cita reservada correctamente!</h3>
+                <h3>¡Cita reservada correctamente!</h3>
                 <p>
-                  La reserva <strong>{generated.code}</strong> se guardÃ³ Ãºnicamente en este navegador.
+                  La reserva <strong>{generated.code}</strong> se guardó únicamente en este navegador.
                 </p>
 
                 <div className="success-ticket">
@@ -435,4 +435,3 @@ export default function BookingSection({
     </section>
   )
 }
-
